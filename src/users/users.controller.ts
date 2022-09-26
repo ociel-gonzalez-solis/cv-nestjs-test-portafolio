@@ -11,15 +11,15 @@ import {
   BadRequestException,
   HttpCode,
   Session,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { QueryFailedError } from 'typeorm';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { CreateUserDTo } from './dto/create-user.dto';
-import { UpdateUserDTo } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -49,7 +49,7 @@ export class UsersController {
   }
 
   @Post('/signup')
-  async createUser(@Body() body: CreateUserDTo, @Session() session: any) {
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
     try {
       const { email, password } = body;
       const user = await this.authService.signUp(email, password);
@@ -68,7 +68,7 @@ export class UsersController {
 
   @Post('/signin')
   @HttpCode(200)
-  async signIn(@Body() body: CreateUserDTo, @Session() session: any) {
+  async signIn(@Body() body: CreateUserDto, @Session() session: any) {
     const { email, password } = body;
     const user = await this.authService.signIn(email, password);
     session.userId = user.id;
@@ -100,7 +100,7 @@ export class UsersController {
   }
 
   @Patch('/:id')
-  updateUser(@Param('id') id: string, @Body() body: UpdateUserDTo) {
+  updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
     return this.usersService.update(+id, body);
   }
 }

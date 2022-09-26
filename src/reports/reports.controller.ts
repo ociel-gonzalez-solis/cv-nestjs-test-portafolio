@@ -15,7 +15,7 @@ import { ReportsService } from './reports.service';
 import { User } from '../users/user.entity';
 import { ReportDto } from './dtos/report.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
-import { approveReportDto } from './dtos/approve-report.dto';
+import { ApproveReportDto } from './dtos/approve-report.dto';
 import { AdminGuard } from 'src/guards/admin.guard';
 import { GetEstimateDto } from './dtos/get-estimate.dto';
 
@@ -25,7 +25,7 @@ export class ReportsController {
 
   @Get()
   getEstimate(@Query() query: GetEstimateDto) {
-    return query;
+    return this.reportService.createEstimate(query);
   }
 
   @Post()
@@ -37,7 +37,7 @@ export class ReportsController {
 
   @Patch('/:id')
   @UseGuards(AdminGuard)
-  approvedReport(@Param('id') id: string, @Body() body: approveReportDto) {
+  approvedReport(@Param('id') id: string, @Body() body: ApproveReportDto) {
     return this.reportService.changeApproval(+id, body.approved);
   }
 }
