@@ -13,7 +13,7 @@ import {
   Session,
   UseGuards
 } from '@nestjs/common';
-import { AuthGuard } from 'src/guards/auth.guards';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { QueryFailedError } from 'typeorm';
 import { AuthService } from './auth.service';
